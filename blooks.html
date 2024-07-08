@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blooks</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Nunito Sans', sans-serif;
+            background-color: #333;
+            color: #eee;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            font-family: 'Titan One', cursive;
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: space-between;
+            width: 300px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #45a049;
+        }
+
+        .blook {
+            background-color: #444;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            width: 300px;
+            display: inline-block;
+            margin-right: 20px;
+        }
+
+        .blook-image {
+            max-width: 150px;
+            height: auto;
+            margin-bottom: 10px;
+        }
+
+        .blook-info {
+            margin-bottom: 10px;
+        }
+
+        .sell-btn {
+            margin-top: 10px;
+            padding: 8px 16px;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .sell-btn:hover {
+            background-color: #e53935;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Blooks</h2>
+
+        <!-- Tokens Display -->
+        <p>Tokens: <span id="tokensDisplay">0</span></p>
+
+        <!-- Blooks List -->
+        <div class="blooks-container">
+            <div class="blook" id="blook1">
+                <img class="blook-image" src="blooks/xotic.jpg" alt="Xotic">
+                <div class="blook-info">
+                    <p>Name: Xotic</p>
+                    <p>Rarity: Rare</p>
+                    <p>Amount owned: <span id="blook1Amount">0</span></p>
+                    <p>Value: 50 tokens</p>
+                </div>
+                <button class="sell-btn" onclick="sellBlook('Xotic')">Sell One</button>
+            </div>
+
+            <div class="blook" id="blook2">
+                <img class="blook-image" src="blooks/pig.jpg" alt="Pig">
+                <div class="blook-info">
+                    <p>Name: Pig</p>
+                    <p>Rarity: Common</p>
+                    <p>Amount owned: <span id="blook2Amount">0</span></p>
+                    <p>Value: 20 tokens</p>
+                </div>
+                <button class="sell-btn" onclick="sellBlook('Pig')">Sell One</button>
+            </div>
+
+            <div class="blook" id="blook3">
+                <img class="blook-image" src="blooks/hmm.jpg" alt="Hmm">
+                <div class="blook-info">
+                    <p>Name: Hmm</p>
+                    <p>Rarity: Legendary</p>
+                    <p>Amount owned: <span id="blook3Amount">0</span></p>
+                    <p>Value: 100 tokens</p>
+                </div>
+                <button class="sell-btn" onclick="sellBlook('Hmm')">Sell One</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Buttons -->
+    <div class="btn-group">
+        <button class="btn" onclick="navigate('stats')">Stats</button>
+        <button class="btn" onclick="navigate('market')">Market</button>
+        <button class="btn" onclick="navigate('blooks')">Blooks</button>
+    </div>
+
+    <script>
+        // Sample user data (replace with actual data or dynamic generation)
+        const userData = {
+            tokens: 150, // Example tokens
+            blooks: {
+                Xotic: { value: 50, rarity: 'Rare', amount: 3, image: 'blooks/xotic.jpg' },
+                Pig: { value: 20, rarity: 'Common', amount: 1, image: 'blooks/pig.jpg' },
+                Hmm: { value: 100, rarity: 'Legendary', amount: 0, image: 'blooks/hmm.jpg' }
+                // Add more blooks as needed
+            }
+        };
+
+        // Function to initialize blooks data
+        function initBlooksData() {
+            for (const blookName in userData.blooks) {
+                const blook = userData.blooks[blookName];
+                const blookElement = document.getElementById(blookName.toLowerCase());
+                if (blookElement) {
+                    blookElement.querySelector('.blook-info #blook1Amount').textContent = blook.amount;
+                }
+            }
+        }
+
+        // Function to sell a blook
+        function sellBlook(blookName) {
+            const blook = userData.blooks[blookName];
+            if (blook.amount > 0) {
+                userData.tokens += blook.value;
+                blook.amount--;
+                // Update localStorage with new data
+                localStorage.setItem('userData', JSON.stringify(userData));
+                // Update UI to reflect changes
+                const blookElement = document.getElementById(blookName.toLowerCase());
+                if (blookElement) {
+                    blookElement.querySelector('.blook-info #blook1Amount').textContent = blook.amount;
+                    updateTokensDisplay(userData.tokens);
+                }
+            } else {
+                alert(`You don't own any ${blookName} to sell.`);
+            }
+        }
+
+        // Function to update tokens display
+        function updateTokensDisplay(tokens) {
+            document.getElementById('tokensDisplay').textContent = tokens;
+        }
+
+        // Function to navigate to different sections
+        function navigate(section) {
+            if (section === 'stats') {
+                window.location.href = 'stats.html';
+            } else if (section === 'market') {
+                window.location.href = 'market.html';
+            } else if (section === 'blooks') {
+                window.location.href = 'blooks.html';
+            }
+        }
+
+        // Initialize blooks data when the page loads
+        window.onload = function () {
+            initBlooksData();
+            updateTokensDisplay(userData.tokens);
+        };
+    </script>
+</body>
+
+</html>
