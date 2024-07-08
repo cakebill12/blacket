@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Market</title>
+    <style>
+        body {
+            font-family: 'Nunito Sans', sans-serif;
+            background-color: #333;
+            color: #eee;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            font-family: 'Titan One', cursive;
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: space-between;
+            width: 300px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #45a049;
+        }
+
+        .pack {
+            background-color: #444;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            width: 300px;
+        }
+
+        .blook-image {
+            max-width: 150px;
+            height: auto;
+            margin-bottom: 10px;
+        }
+
+        .blook-info {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Market</h2>
+
+        <!-- Tokens Display -->
+        <p>Tokens: <span id="tokensDisplay">0</span></p>
+
+        <!-- Sigma Pack -->
+        <div class="pack" id="sigmaPack">
+            <h3>Sigma Pack</h3>
+            <p>Cost: 30 tokens</p>
+            <button onclick="purchaseSigmaPack()">Purchase</button>
+        </div>
+    </div>
+
+    <!-- Navigation Buttons -->
+    <div class="btn-group">
+        <button class="btn" onclick="navigate('stats')">Stats</button>
+        <button class="btn" onclick="navigate('market')">Market</button>
+        <button class="btn" onclick="navigate('blooks')">Blooks</button>
+    </div>
+
+    <script>
+        // Sample blook data (replace with actual data or dynamic generation)
+        const blooks = {
+            1: { name: "Xotic", rarity: "Rare", image: "blooks/xotic.jpg" },
+            2: { name: "Pig", rarity: "Common", image: "blooks/pig.jpg" },
+            3: { name: "Hmm", rarity: "Legendary", image: "blooks/hmm.jpg" }
+            // Add more blooks as needed
+        };
+
+        // Function to handle purchase of Sigma Pack
+        function purchaseSigmaPack() {
+            const userData = JSON.parse(localStorage.getItem('userData'));
+
+            // Check if user has enough tokens
+            if (userData.tokens < 30) {
+                alert('Not enough tokens to purchase Sigma Pack.');
+                return;
+            }
+
+            // Deduct 30 tokens
+            userData.tokens -= 30;
+
+            // Generate a random blook
+            const randomBlookId = Math.floor(Math.random() * Object.keys(blooks).length) + 1;
+            const randomBlook = blooks[randomBlookId];
+
+            // Update user's inventory
+            if (!userData.blooks[randomBlook.name]) {
+                userData.blooks[randomBlook.name] = {
+                    value: randomBlook.value || 0,
+                    rarity: randomBlook.rarity,
+                    amount: 1, // Initial amount when acquired
+                    image: randomBlook.image
+                };
+            } else {
+                userData.blooks[randomBlook.name].amount++;
+            }
+
+            // Save updated user data
+            localStorage.setItem('userData', JSON.stringify(userData));
+
+            // Update tokens display
+            document.getElementById('tokensDisplay').textContent = userData.tokens;
+
+            // Display the acquired blook (optional)
+            // displayBlook(randomBlook);
+
+            // Optionally, notify the user
+            alert(`You acquired ${randomBlook.name} (${randomBlook.rarity})!`);
+        }
+
+        // Function to navigate to different sections
+        function navigate(section) {
+            if (section === 'stats') {
+                window.location.href = 'stats.html';
+            } else if (section === 'market') {
+                window.location.href = 'market.html';
+            } else if (section === 'blooks') {
+                window.location.href = 'blooks.html';
+            }
+        }
+    </script>
+</body>
+
+</html>
