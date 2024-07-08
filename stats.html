@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Stats</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Nunito Sans', sans-serif;
+            background-color: #333;
+            color: #eee;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            font-family: 'Titan One', cursive;
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: space-between;
+            width: 300px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #45a049;
+        }
+
+        .claim-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .claim-btn:hover {
+            background-color: #0b7dda;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>User Stats</h2>
+
+        <!-- User Info Display -->
+        <p>Welcome, <span id="usernameDisplay">User</span>!</p>
+        <p>Tokens: <span id="tokensDisplay">0</span></p>
+        <p>Blooks Unlocked:</p>
+        <ul id="blooksList"></ul>
+
+        <!-- Claim Tokens Button -->
+        <button class="claim-btn" onclick="claimTokens()">Claim Tokens</button>
+    </div>
+
+    <!-- Navigation Buttons -->
+    <div class="btn-group">
+        <button class="btn" onclick="navigate('stats')">Stats</button>
+        <button class="btn" onclick="navigate('market')">Market</button>
+        <button class="btn" onclick="navigate('blooks')">Blooks</button>
+    </div>
+
+    <script>
+        // Sample user data (replace with actual data or dynamic generation)
+        const userData = {
+            username: 'User', // Example username
+            tokens: 100, // Example tokens
+            blooks: {
+                Xotic: { value: 50, rarity: 'Rare', amount: 3, image: 'blooks/xotic.jpg' },
+                Pig: { value: 20, rarity: 'Common', amount: 1, image: 'blooks/pig.jpg' },
+                Hmm: { value: 100, rarity: 'Legendary', amount: 0, image: 'blooks/hmm.jpg' }
+                // Add more blooks as needed
+            }
+        };
+
+        // Function to initialize user data
+        function initUserData() {
+            document.getElementById('usernameDisplay').textContent = userData.username;
+            document.getElementById('tokensDisplay').textContent = userData.tokens;
+
+            const blooksList = document.getElementById('blooksList');
+            for (const blookName in userData.blooks) {
+                const blook = userData.blooks[blookName];
+                const listItem = document.createElement('li');
+                listItem.textContent = `${blookName}: ${blook.amount} (${blook.rarity})`;
+                blooksList.appendChild(listItem);
+            }
+        }
+
+        // Function to claim tokens daily
+        function claimTokens() {
+            const claimedTokens = 2000; // Daily claim amount
+            userData.tokens += claimedTokens;
+            localStorage.setItem('userData', JSON.stringify(userData));
+            document.getElementById('tokensDisplay').textContent = userData.tokens;
+            alert(`You claimed ${claimedTokens} tokens!`);
+        }
+
+        // Function to navigate to different sections
+        function navigate(section) {
+            if (section === 'stats') {
+                window.location.href = 'stats.html';
+            } else if (section === 'market') {
+                window.location.href = 'market.html';
+            } else if (section === 'blooks') {
+                window.location.href = 'blooks.html';
+            }
+        }
+
+        // Initialize user data when the page loads
+        window.onload = function () {
+            initUserData();
+        };
+    </script>
+</body>
+
+</html>
