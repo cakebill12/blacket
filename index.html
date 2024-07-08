@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Nunito Sans', sans-serif;
+            background-color: #333;
+            color: #eee;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        form {
+            width: 300px;
+            padding: 20px;
+            border: 1px solid #666;
+            border-radius: 5px;
+            background-color: #444;
+        }
+
+        h2 {
+            font-family: 'Titan One', cursive;
+            font-size: 28px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: calc(100% - 20px);
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #888;
+            border-radius: 3px;
+            box-sizing: border-box;
+            background-color: #555;
+            color: #eee;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 3px;
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        .blook-image {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <form id="signupForm">
+        <h2>sign up for blacket rewrite real!</h2>
+        <input type="text" id="username" placeholder="Username" required>
+        <input type="password" id="password" placeholder="Password" required>
+        <input type="submit" value="Sign Up">
+    </form>
+
+    <script>
+        // Function to handle form submission
+        function handleSignUp(event) {
+            event.preventDefault(); // Prevent the form from submitting
+
+            // Get username and password from form inputs
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            // Check if username or password is empty
+            if (!username || !password) {
+                alert('Username and password are required');
+                return;
+            }
+
+            // Simulate user data storage (replace with actual storage logic)
+            const userData = {
+                username: username,
+                password: password,
+                tokens: 0, // Initialize tokens (if needed)
+                blooks: {
+                    Xotic: {
+                        value: 15,
+                        rarity: 'Rare',
+                        amount: 0,
+                        image: 'blooks/xotic.jpg' // Replace with actual image URL
+                    },
+                    Pig: {
+                        value: 8,
+                        rarity: 'Common',
+                        amount: 0,
+                        image: 'blooks/pig.jpg' // Replace with actual image URL
+                    },
+                    Hmm: {
+                        value: 20,
+                        rarity: 'Legendary',
+                        amount: 0,
+                        image: 'blooks/hmm.jpg' // Replace with actual image URL
+                    }
+                }
+                // Add more properties as needed
+            };
+
+            // Save user data to localStorage (or database)
+            localStorage.setItem('userData', JSON.stringify(userData));
+
+            // Optionally, notify the user that signup was successful
+            alert('Sign up successful!');
+
+            // Redirect to stats.html or any other page
+            window.location.href = 'stats.html';
+
+            // Reset the form (if needed)
+            document.getElementById('signupForm').reset();
+        }
+
+        // Event listener for form submission
+        document.getElementById('signupForm').addEventListener('submit', handleSignUp);
+    </script>
+</body>
+
+</html>
